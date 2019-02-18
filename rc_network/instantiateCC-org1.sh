@@ -24,7 +24,7 @@ sleep ${FABRIC_START_TIMEOUT}
 #docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.rgbproject.com/users/Admin@org1.rgbproject.com/msp" cli peer chaincode instantiate -o orderer.rgbproject.com:7050 -C channelrc -n rc_cc_query -v 1.0 -c '{"Args":["init"]}' -P 'OR ("Org1MSP.member", "Org2MSP.member")'
 
 # Instanticate chaincode "rc_cc"
-docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.rgbproject.com/users/Admin@org1.rgbproject.com/msp" -e "CORE_PEER_ADDRESS=peer0.org1.rgbproject.com:7051" cli peer chaincode instantiate -o orderer.rgbproject.com:7050 -C channelrc -n rc_cc -v 1.0 -c '{"Args":["init"]}' -P 'AND ("Org1MSP.member", "Org2MSP.member")'
+docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.rgbproject.com/users/Admin@org1.rgbproject.com/msp" -e "CORE_PEER_ADDRESS=peer0.org1.rgbproject.com:7051" cli peer chaincode instantiate -o orderer.rgbproject.com:7050 -C channelrc -n rc_cc -v 1.0 -c '{"Args":["init"]}' 
 
 printf "\nTotal execution time : $(($(date +%s) - starttime)) secs ...\n\n"
 printf "\nStart with the registerAdmin.js, then registerUser.js, then server.js\n\n"
