@@ -8,7 +8,7 @@ version: '2'
 networks:
   byfn:
     external:
-      name: rc_net
+      name: rcnetwork_byfn
 
 services:
   
@@ -44,7 +44,7 @@ services:
       # # the following setting starts chaincode containers on the same
       # # bridge network as the peers
       # # https://docs.docker.com/compose/networking/
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=rc_net
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=byfn
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb2:5984
       # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
@@ -100,7 +100,7 @@ services:
       # # the following setting starts chaincode containers on the same
       # # bridge network as the peers
       # # https://docs.docker.com/compose/networking/
-      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=rc_net
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=byfn
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb3:5984
       # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
@@ -123,33 +123,3 @@ services:
       - couchdb3
     networks:
       - byfn
-
-  ################################################################################
-  # CLI
-  ################################################################################
-  cli:
-    container_name: cli
-    image: hyperledger/fabric-tools
-    tty: true
-    environment:
-      - GOPATH=/opt/gopath
-      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      - CORE_LOGGING_LEVEL=info
-      - CORE_PEER_ID=cli
-      - CORE_PEER_ADDRESS=peer0.org1.rgbproject.com:7051
-      - CORE_PEER_LOCALMSPID=Org1MSP
-      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.rgbproject.com/users/Admin@org1.rgbproject.com/msp
-      - CORE_CHAINCODE_KEEPALIVE=10
-    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
-    command: /bin/bash
-    volumes:
-        - /var/run/:/host/var/run/
-        - ../chaincode/rc_chaincode/:/opt/gopath/src/github.com/rc_chaincode
-        - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto
-        - ./config:/opt/gopath/src/github.com/hyperledger/fabric/peer/configtx
-    networks:
-        - byfn
-    #depends_on:
-    #  - orderer.rgbproject.com
-    #  - peer0.org1.rgbproject.com
-    #  - couchdb

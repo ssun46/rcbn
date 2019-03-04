@@ -12,4 +12,4 @@ export MSYS_NO_PATHCONV=1
 
 docker-compose -f docker-compose-org2.yml down
 
-docker-compose -f docker-compose-org2.yml up -d peer0.org2.rgbproject.com peer1.org2.rgbproject.com couchdb2 couchdb3 cli
+docker-compose -f docker-compose-org2.yml up -d peer0.org2.rgbproject.com peer1.org2.rgbproject.com couchdb2 couchdb3
